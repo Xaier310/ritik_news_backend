@@ -21,6 +21,9 @@ mongoose.connect(`${process.env.Data_Base}`, (err)=>{
     }
 })
 
+app.get("/",(req,res)=>{
+    res.send("Working")
+})
 
 app.post("/signup", async (req,res)=>{
 
