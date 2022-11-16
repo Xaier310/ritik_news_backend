@@ -4,16 +4,15 @@ const cors = require('cors')
 const app = express();
 // require('./db/config')
 const User = require('./db/User')
+const axios = require('axios');
 require("dotenv").config();
 
 app.use(express.json())
 app.use(cors());
 
-// console.log(process.env.DataBase)
 
 mongoose.connect(`${process.env.Data_Base}`, (err)=>{
     if(err) {
-        // console.log(err)
         throw err
 
     }else{
@@ -53,6 +52,19 @@ app.post("/login", async (req, res)=>{
         res.send({result:"Please enter data"})
     }
 })
+
+
+// console.log(axios);
+
+app.get("/news/:type",async (req,res)=>{
+    var type = req.params.type;
+    console.log("req...."+type);
+    var data = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&category=${type}&apiKey=7f50577e05c84ae086b154b4659aadb1&page=1&pageSize=16`)
+    console.log(data.data);
+    res.send(data.data);
+})
+
+
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT,()=>{
